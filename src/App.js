@@ -1,24 +1,34 @@
-import logo from './logo.svg';
 import './App.css';
+import {useState} from 'react'
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
+import Home from './Pages';
+import SigninPage from './Pages/Signin'
+import Sidebar from './components/Sidebar'
+// import NavBar from './components/NavBar'
+import Footer from './components/Footer'
+// import MembersPage from './Pages/MembersPage';
+import TempleTownsPage from './Pages/TempleTownsPage';
+import TopBar from './components/TopBar';
+import Members from './components/Members'
 
-function App() {
+function App(props) {    const [isOpen, setIsOpen] = useState(false)
+  const toggle = () => {
+   setIsOpen(!isOpen)   
+  }
+  console.log("App Props : ", props)
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <Router>
+        <Sidebar isOpen={isOpen} toggle={toggle}/>  
+        <TopBar toggle={toggle}/>
+          <Route path="/" exact component={Home}/>
+          <Route path="/signin" component={SigninPage} exact />
+          {/* <Route path="/members/:Id" component={Members}  /> */}
+          <Route path="/members/:Id" render={(props)=><Members {...props} />} />
+          <Route path='/templetowns' component={TempleTownsPage} exact />
+          <Route path="/services" exact component={Home} />
+        <Footer />
+      </Router>
+
   );
 }
 
